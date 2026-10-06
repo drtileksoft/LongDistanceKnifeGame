@@ -48,12 +48,16 @@ a:hover { color: var(--red); }
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   padding: 5px 16px; border-bottom: 2px solid var(--line);
 }
-.brand { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand-link { display: flex; align-items: center; gap: 10px; color: var(--white); text-decoration: none; flex: none; }
+.brand-link:hover { color: var(--white); }
+.brand-link:hover strong { color: var(--red); }
+.brand-logo { width: 34px; height: 34px; display: block; flex: none; }
+.brand strong small { font-size: .7em; letter-spacing: .06em; }
 .brand strong {
   font: 600 26px/1 var(--teko); text-transform: uppercase; letter-spacing: .04em; white-space: nowrap;
 }
 .brand-sub { color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .12em; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.brand-slash { width: 10px; height: 20px; background: var(--red); transform: skewX(-20deg); align-self: center; flex: none; }
 .lang { display: flex; gap: 4px; flex: none; }
 .lang button {
   font: 700 15px/1 var(--rajdhani); letter-spacing: .12em; color: var(--muted);
@@ -90,6 +94,12 @@ a:hover { color: var(--red); }
 
 /* ---------- intro ---------- */
 .intro { max-width: 1120px; margin: 0 auto; padding: 24px 16px 32px; }
+.intro-head { display: flex; align-items: center; gap: 24px; margin-bottom: 12px; }
+.intro-logo { flex: none; display: block; line-height: 0; }
+.intro-logo img { width: clamp(84px, 13vw, 150px); height: auto; transition: transform .15s; }
+.intro-logo:hover img { transform: rotate(-4deg) scale(1.03); }
+.club { margin: 12px 0 0; color: var(--muted); }
+.club a { font-weight: 700; }
 .intro-title {
   margin: 4px 0 8px; font: 600 clamp(52px, 11vw, 118px)/.9 var(--teko); text-transform: uppercase;
 }
@@ -232,6 +242,11 @@ a:hover { color: var(--red); }
   .hint { display: none; }
   .log-panel { display: block; padding: 10px 10px; overflow-x: auto; }
   .brand-sub { display: none; }
+  .brand strong { font-size: 23px; }
+}
+
+@media (max-width: 420px) {
+  .brand strong small { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

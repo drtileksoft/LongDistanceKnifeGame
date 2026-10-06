@@ -16,8 +16,10 @@
 <body>
   <header class="topbar">
     <div class="brand">
-      <span class="brand-slash" aria-hidden="true"></span>
-      <strong>Blade Throwers</strong>
+      <a class="brand-link" href="https://www.bladethrowers.cz/" target="_blank" rel="noopener" data-i18n-title="clubLink">
+        <img class="brand-logo" src="assets/blade-throwers-logo.svg" alt="" width="34" height="34">
+        <strong>Blade Throwers <small>z. s.</small></strong>
+      </a>
       <span class="brand-sub" data-i18n="brandSub"></span>
     </div>
     <div class="lang" role="group">
@@ -28,7 +30,12 @@
 
   <main>
     <section id="intro" class="intro" hidden>
-      <h1 class="intro-title" data-i18n="title"></h1>
+      <div class="intro-head">
+        <a class="intro-logo" href="https://www.bladethrowers.cz/" target="_blank" rel="noopener" data-i18n-title="clubLink">
+          <img src="assets/blade-throwers-logo.svg" alt="Blade Throwers z. s." width="150" height="150">
+        </a>
+        <h1 class="intro-title" data-i18n="title"></h1>
+      </div>
       <p class="lead" data-i18n="introLead"></p>
       <h2 class="slant" data-i18n="introPick"></h2>
       <div class="cards">
@@ -74,6 +81,10 @@
       <section class="panel rules">
         <h2 data-i18n="rulesHead"></h2>
         <ul id="rules-list"></ul>
+        <p class="club">
+          <span data-i18n="clubMore"></span>
+          <a href="https://www.bladethrowers.cz/" target="_blank" rel="noopener">www.bladethrowers.cz</a>
+        </p>
       </section>
     </section>
 
