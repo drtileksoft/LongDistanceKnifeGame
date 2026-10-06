@@ -222,6 +222,7 @@ a:hover { color: var(--red); }
   .cards { grid-template-columns: 1fr; }
   .card { display: grid; grid-template-columns: 120px minmax(0, 1fr); column-gap: 14px; }
   .card-icon { grid-row: span 2; }
+  .card-name { font-size: 30px; white-space: nowrap; }
   .game { width: 100%; padding: 8px 16px 12px; gap: 10px; }
   .scene-wrap { margin-inline: -16px; width: calc(100% + 32px); }
   .controls {
