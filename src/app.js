@@ -43,9 +43,17 @@ const ui = {
   again: $('#btn-again'),
   summary: $('#summary'),
   controls: $('#controls'),
+  lang: $('#lang'),
   log: $('#log tbody'),
   live: $('#live'),
 };
+
+// Language menu, each option labelled in its own language.
+ui.lang.replaceChildren(...LANGS.map((code) => {
+  const o = new Option(STRINGS[code].langName, code);
+  o.lang = code;
+  return o;
+}));
 
 const kindOf = (variant) => VARIANTS[variant].tool;
 const defaultAim = (variant) => VARIANTS[variant].start + 150;
@@ -63,14 +71,14 @@ function applyTexts() {
     return li;
   }));
   $('#scene').setAttribute('aria-label', t('sceneLabel'));
-  $$('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === app.lang)));
-  $('.lang').setAttribute('aria-label', t('langLabel'));
+  ui.lang.value = app.lang;
+  ui.lang.setAttribute('aria-label', t('langLabel'));
   if (app.variant) {
     const kind = kindOf(app.variant);
     ui.stuck.textContent = t(`btnStuck_${kind}`);
     ui.miss.textContent = t(`btnMiss_${kind}`);
-    $('#scale-near').textContent = `${t.bound(VARIANTS[app.variant].start)} m`;
-    $('#scale-far').textContent = `${t.bound(AXIS_END_CM)} m`;
+    $('#scale-near').textContent = `${t.bound(VARIANTS[app.variant].start)} ${t('unitM')}`;
+    $('#scale-far').textContent = `${t.bound(AXIS_END_CM)} ${t('unitM')}`;
   }
   ui.demo.textContent = t(app.demo ? 'btnDemoStop' : 'btnDemo');
 }
@@ -124,7 +132,7 @@ function renderAim() {
   ui.slider.min = String(start);
   ui.slider.max = String(AXIS_END_CM);
   ui.slider.value = String(app.aim);
-  ui.slider.setAttribute('aria-valuetext', `${t.cm(app.aim)} m`);
+  ui.slider.setAttribute('aria-valuetext', t.m(app.aim));
   ui.slider.classList.toggle('invalid', !verdict.ok);
   // allowed range on the slider track (the slider runs right→left like the scene)
   const span = AXIS_END_CM - start;
@@ -133,7 +141,7 @@ function renderAim() {
   const hi = 1 - (r.min - start) / span;
   ui.slider.style.setProperty('--lo', `${(lo * 100).toFixed(2)}%`);
   ui.slider.style.setProperty('--hi', `${(game.over ? lo * 100 : hi * 100).toFixed(2)}%`);
-  ui.value.textContent = `${t.cm(app.aim)} m`;
+  ui.value.textContent = t.m(app.aim);
   ui.reason.textContent = game.over ? '' : reasonText(verdict);
   ui.reason.classList.toggle('bad', !verdict.ok);
   const locked = app.busy || !!app.demo;
@@ -153,7 +161,7 @@ function renderLog() {
     tr.className = row.stuck ? 'stuck' : 'miss';
     const cells = [
       String(row.n),
-      `${t.cm(row.d)} m`,
+      t.m(row.d),
       rangeText(row.range),
       row.stuck ? '✓' : '✗',
       '●'.repeat(row.reserve) + '○'.repeat(3 - row.reserve),
@@ -186,7 +194,7 @@ function render({ blink = false } = {}) {
   ui.controls.classList.toggle('over', game.over);
   if (showSummary) {
     const best = result(game);
-    $('#sum-result').textContent = best === null ? t('sumNone') : `${t.cm(best)} m`;
+    $('#sum-result').textContent = best === null ? t('sumNone') : t.m(best);
     $('#sum-stats').textContent = `${t.plural('throws', game.throws.length)} · ${t.plural('sticks', game.throws.filter((x) => x.stuck).length)}`;
   }
 }
@@ -388,7 +396,7 @@ ui.again.addEventListener('click', () => { newGame(); ui.slider.focus(); });
 ui.tool.addEventListener('click', () => showIntro());
 ui.demo.addEventListener('click', runDemo);
 $$('.card[data-variant]').forEach((c) => c.addEventListener('click', () => startVariant(c.dataset.variant)));
-$$('[data-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
+ui.lang.addEventListener('change', () => setLang(ui.lang.value));
 
 document.addEventListener('keydown', (e) => {
   if (!app.variant || e.target.closest?.('input, textarea')) return;

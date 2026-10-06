@@ -84,9 +84,25 @@ test('language follows the browser and can be switched', async ({ browser }) => 
   await page.goto('./');
   await expect(page.locator('html')).toHaveAttribute('lang', 'cs');
   await expect(page.getByRole('button', { name: /Sekera/ })).toBeVisible();
-  await page.getByRole('button', { name: 'EN', exact: true }).click();
+  await page.getByRole('combobox', { name: 'Jazyk' }).selectOption('en');
   await expect(page.getByRole('button', { name: /Axe/ })).toBeVisible();
   await page.getByRole('button', { name: /Axe/ }).click();
   await expect(page.getByRole('button', { name: 'Stuck ✓' })).toBeVisible();
+  await context.close();
+});
+
+test('Russian on a phone: Cyrillic texts and units, no horizontal scroll', async ({ browser }) => {
+  const context = await browser.newContext({ locale: 'ru-RU', viewport: { width: 360, height: 740 } });
+  const page = await context.newPage();
+  await page.route(/fonts\.(googleapis|gstatic)\.com/, (route) => route.abort());
+  await page.goto('./');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
+  await page.getByRole('button', { name: /Топор/ }).click();
+  await expect(page.getByRole('button', { name: 'Втык ✓' })).toBeVisible();
+  await expect(page.locator('#dist-value')).toHaveText(/^\d+,\d{2} м$/);
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow).toBe(0);
+  await page.getByRole('combobox', { name: 'Язык' }).selectOption('fr');
+  await expect(page.getByRole('button', { name: 'Plantée ✓' })).toBeVisible();
   await context.close();
 });

@@ -18,8 +18,9 @@ const C = {
   muted: '#B5B5B5', steel: '#D5D5D5', steelDark: '#6E6E6E', red: '#E10600', black: '#0A0A0A',
   wood: '#C9A36A', woodDark: '#8A6A3C',
 };
-const TEKO = "Teko, 'Arial Narrow', sans-serif";
-const RAJ = "Rajdhani, 'Segoe UI', Arial, sans-serif";
+// Teko and Rajdhani have no Cyrillic; Oswald and Roboto Condensed cover it (e.g. Russian).
+const TEKO = "Teko, Oswald, 'Arial Narrow', sans-serif";
+const RAJ = "Rajdhani, 'Roboto Condensed', 'Segoe UI', Arial, sans-serif";
 const TOOL_LEN = { knife: 56, axe: 70 };
 const GRIP = { knife: [-0.27, 0], axe: [-0.4, 0] }; // × length
 const IMPACT_JITTER = [0, -10, 8, -16, 12, -4, 16, -12, 4, -8];
@@ -235,15 +236,15 @@ export function createScene(svg) {
     const t1 = tile(1168, 216, t('tileReserve'));
     reserveBalls = [0, 1, 2].map((i) => el('circle', { cx: 1168 + 108 + 3 + (i - 1) * 50, cy: 108, r: 17, class: 'ball' }, t1));
     const big = { 'font-family': TEKO, 'font-weight': 600, 'font-size': 84, fill: C.white, 'text-anchor': 'middle' };
-    txt(tile(1398, 216, t('tileSector')), 1398 + 111, 134, '3 m', big);
-    txt(tile(1628, 216, t('tilePrecision')), 1628 + 111, 134, '1 cm', big);
+    txt(tile(1398, 216, t('tileSector')), 1398 + 111, 134, `3 ${t('unitM')}`, big);
+    txt(tile(1628, 216, t('tilePrecision')), 1628 + 111, 134, `1 ${t('unitCm')}`, big);
 
     // ground + sectors
     el('line', { x1: 58, y1: GROUND_Y, x2: 1862, y2: GROUND_Y, stroke: C.ground, 'stroke-width': 4 }, L.band);
     for (let b = start, i = 0; b < AXIS_END_CM; b += SECTOR_CM, i++) {
       const x1 = xOf(b + SECTOR_CM);
       el('rect', { x: x1, y: 522, width: (PX_PER_M * SECTOR_CM) / 100, height: 54, fill: i === 0 ? C.red : i % 2 ? '#2B2B2B' : '#333333' }, L.band);
-      txt(L.band, x1 + (PX_PER_M * 1.5), 564, `${b / 100}–${(b + SECTOR_CM) / 100} m`, {
+      txt(L.band, x1 + (PX_PER_M * 1.5), 564, `${b / 100}–${(b + SECTOR_CM) / 100} ${t('unitM')}`, {
         'font-family': TEKO, 'font-weight': 600, 'font-size': 40, fill: C.white, 'text-anchor': 'middle',
       });
     }
@@ -336,7 +337,7 @@ export function createScene(svg) {
       const y = top + i * rowH;
       const g = el('g', { class: `row ${row.stuck ? 'row-stuck' : 'row-miss'}`, 'data-n': row.n }, L.table);
       txt(g, 84, y + 8 * s, t('rowThrow', { n: row.n }), { 'font-family': RAJ, 'font-weight': 700, 'font-size': 24 * s, fill: C.white });
-      txt(g, 210, y + 12 * s, `${t.cm(row.d)} m`, { 'font-family': TEKO, 'font-weight': 600, 'font-size': 38 * s, fill: row.stuck ? C.white : C.muted });
+      txt(g, 210, y + 12 * s, t.m(row.d), { 'font-family': TEKO, 'font-weight': 600, 'font-size': 38 * s, fill: row.stuck ? C.white : C.muted });
       const x1 = Math.max(AXIS_LEFT, xOf(row.range.max));
       const x2 = xOf(row.range.min);
       const bh = 30 * s;
@@ -418,7 +419,7 @@ export function createScene(svg) {
     headR.setAttribute('visibility', 'visible');
     void headL;
     const mid = (xa + xb) / 2;
-    const label = `${t.cm(d)} m`;
+    const label = t.m(d);
     const lt = txt(g, mid, y - 22, label, { 'font-family': TEKO, 'font-weight': 600, 'font-size': 46, fill: C.red, 'text-anchor': 'middle' });
     let w = 120;
     try { w = lt.getComputedTextLength(); } catch { /* ignore */ }

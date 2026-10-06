@@ -42,8 +42,9 @@ npx serve .            # or: python3 -m http.server
 npm start              # http://localhost:4173/LongDistanceKnifeGame/
 ```
 
-URL parameters: `?lang=cs|en` forces the language (default: browser language, cs/sk → Czech,
-otherwise English), `?tool=nospin|spin|axe` skips the tool selection.
+Languages: Czech, English, German, French, Italian and Russian. URL parameters: `?lang=cs|en|de|fr|it|ru`
+forces the language (default: browser language, cs/sk → Czech, unsupported → English),
+`?tool=nospin|spin|axe` skips the tool selection.
 
 Keyboard: Tab through the controls; on the slider the arrows move by 1 cm, PageUp/PageDown
 by 10 cm, Home/End jump to the edges of the allowed range; Ctrl+Z undoes a throw.
@@ -63,7 +64,7 @@ npm run test:e2e         # Playwright smoke test: plays the SPIN example with th
 | --- | --- |
 | `src/rules.js` | Pure rules engine (no DOM, immutable state, centimetres): `createGame`, `allowedRange`, `check`, `applyThrow`, `result`, `undo` |
 | `src/examples.js` | Reference examples (used by the "Play example" button and the tests) |
-| `src/i18n.js` | All texts in one dictionary – add a language by copying the `en` block |
+| `src/i18n.js` | All texts in one dictionary – add a language by copying the `en` block and adding its code to `LANGS` |
 | `src/scene.js`, `src/figure.js` | SVG scene 1920×1080, thrower pictogram and animations |
 | `src/app.js` | Controller wiring rules, scene and controls |
 | `tests/` | Unit tests, Playwright smoke test and a tiny static server |
