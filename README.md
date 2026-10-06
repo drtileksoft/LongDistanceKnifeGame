@@ -1,3 +1,5 @@
+<a href="https://www.bladethrowers.cz/"><img src="assets/blade-throwers-logo.svg" alt="Blade Throwers z. s." width="120" align="right"></a>
+
 # Long Distance – knife & axe throwing rules simulator
 
 A small browser game that lets anyone try out how the **Long Distance** discipline works at

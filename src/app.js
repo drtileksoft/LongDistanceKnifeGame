@@ -56,6 +56,7 @@ function applyTexts() {
   document.documentElement.lang = app.lang;
   document.title = t('pageTitle');
   $$('[data-i18n]').forEach((node) => { node.textContent = t(node.dataset.i18n); });
+  $$('[data-i18n-title]').forEach((node) => { node.title = t(node.dataset.i18nTitle); });
   $('#rules-list').replaceChildren(...t('rulesList').map((s) => {
     const li = document.createElement('li');
     li.textContent = s;
