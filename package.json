@@ -1,0 +1,15 @@
+{
+  "name": "long-distance-knife-game",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Browser game that simulates the Long Distance discipline rules of Blade Throwers z. s.",
+  "type": "module",
+  "scripts": {
+    "start": "node tests/static-server.js",
+    "test": "node --test \"tests/unit/*.test.js\"",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  }
+}

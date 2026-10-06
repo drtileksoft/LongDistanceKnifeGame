@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dlouhá vzdálenost – simulátor pravidel</title>
+  <meta name="description" content="Long Distance knife and axe throwing rules simulator (Blade Throwers z. s.) – Simulátor pravidel disciplíny dlouhá vzdálenost.">
+  <meta name="theme-color" content="#141414">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Teko:wght@500;600&display=swap">
+  <link rel="stylesheet" href="styles/main.css">
+  <script type="module" src="src/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-slash" aria-hidden="true"></span>
+      <strong>Blade Throwers</strong>
+      <span class="brand-sub" data-i18n="brandSub"></span>
+    </div>
+    <div class="lang" role="group">
+      <button type="button" data-lang="cs" lang="cs">CS</button>
+      <button type="button" data-lang="en" lang="en">EN</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="intro" class="intro" hidden>
+      <h1 class="intro-title" data-i18n="title"></h1>
+      <p class="lead" data-i18n="introLead"></p>
+      <h2 class="slant" data-i18n="introPick"></h2>
+      <div class="cards">
+        <button type="button" class="card" data-variant="nospin">
+          <svg class="card-icon" viewBox="0 0 160 70" aria-hidden="true">
+            <path d="M8 35 H58" stroke="#B5B5B5" stroke-width="2" stroke-dasharray="3 6" fill="none"/>
+            <rect x="62" y="30.5" width="38" height="9" rx="2" fill="#6E6E6E"/>
+            <polygon points="97,29 125,30 145,35 125,40 97,41" fill="#D5D5D5"/>
+            <path d="M150 20 V50" stroke="#fff" stroke-width="4"/>
+          </svg>
+          <span class="card-name" data-i18n="tool_nospin"></span>
+          <span class="card-desc" data-i18n="desc_nospin"></span>
+        </button>
+        <button type="button" class="card" data-variant="spin">
+          <svg class="card-icon" viewBox="0 0 160 70" aria-hidden="true">
+            <path d="M52 14 A26 26 0 1 1 30 22" stroke="#E10600" stroke-width="3" fill="none"/>
+            <polygon points="24,14 36,18 28,28" fill="#E10600"/>
+            <g transform="translate(56 35) rotate(-35)">
+              <rect x="-28" y="-4" width="26" height="8" rx="2" fill="#6E6E6E"/>
+              <polygon points="-4,-5 16,-4 28,0 16,4 -4,5" fill="#D5D5D5"/>
+            </g>
+            <path d="M150 20 V50" stroke="#fff" stroke-width="4"/>
+            <path d="M92 35 H140" stroke="#B5B5B5" stroke-width="2" stroke-dasharray="3 6" fill="none"/>
+          </svg>
+          <span class="card-name" data-i18n="tool_spin"></span>
+          <span class="card-desc" data-i18n="desc_spin"></span>
+        </button>
+        <button type="button" class="card" data-variant="axe">
+          <svg class="card-icon" viewBox="0 0 160 70" aria-hidden="true">
+            <path d="M52 14 A26 26 0 1 1 30 22" stroke="#E10600" stroke-width="3" fill="none"/>
+            <polygon points="24,14 36,18 28,28" fill="#E10600"/>
+            <g transform="translate(56 37) rotate(-60)">
+              <rect x="-32" y="-2.5" width="62" height="5" rx="2" fill="#C9A36A"/>
+              <path d="M20 -6 L31 -6 L32 6 L38 20 Q27 28 15 20 L19 6 Z" fill="#D5D5D5"/>
+            </g>
+            <path d="M150 20 V50" stroke="#fff" stroke-width="4"/>
+            <path d="M92 35 H140" stroke="#B5B5B5" stroke-width="2" stroke-dasharray="3 6" fill="none"/>
+          </svg>
+          <span class="card-name" data-i18n="tool_axe"></span>
+          <span class="card-desc" data-i18n="desc_axe"></span>
+        </button>
+      </div>
+      <section class="panel rules">
+        <h2 data-i18n="rulesHead"></h2>
+        <ul id="rules-list"></ul>
+      </section>
+    </section>
+
+    <section id="game" class="game" hidden>
+      <div class="scene-wrap">
+        <svg id="scene" role="img" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+
+      <div id="controls" class="panel controls">
+        <div class="c-value">
+          <label for="dist" data-i18n="distLabel"></label>
+          <output id="dist-value" for="dist" aria-live="off"></output>
+        </div>
+        <button type="button" class="btn nudge c-p10" data-step="10">+10 cm</button>
+        <button type="button" class="btn nudge c-p1" data-step="1">+1 cm</button>
+        <div class="c-range">
+          <input type="range" id="dist" dir="rtl" min="700" max="2200" step="1" value="850">
+          <div class="scale" aria-hidden="true"><span id="scale-far"></span><span id="scale-near"></span></div>
+        </div>
+        <button type="button" class="btn nudge c-m1" data-step="-1">−1 cm</button>
+        <button type="button" class="btn nudge c-m10" data-step="-10">−10 cm</button>
+        <p id="reason" class="c-reason"></p>
+        <div class="c-throw">
+          <button type="button" id="btn-stuck" class="btn btn-stuck"></button>
+          <button type="button" id="btn-miss" class="btn btn-miss"></button>
+        </div>
+        <div id="summary" class="c-summary" hidden>
+          <div class="sum-text">
+            <span class="slant" data-i18n="sumTitle"></span>
+            <span class="sum-label" data-i18n="sumResult"></span>
+            <strong id="sum-result" class="sum-result"></strong>
+            <span id="sum-stats" class="sum-stats"></span>
+          </div>
+          <div class="sum-actions">
+            <button type="button" id="btn-again" class="btn btn-stuck" data-i18n="btnAgain"></button>
+          </div>
+        </div>
+        <div class="c-secondary">
+          <button type="button" id="btn-undo" class="btn btn-small" data-i18n="btnUndo"></button>
+          <button type="button" id="btn-new" class="btn btn-small" data-i18n="btnNew"></button>
+          <button type="button" id="btn-tool" class="btn btn-small" data-i18n="btnTool"></button>
+          <button type="button" id="btn-demo" class="btn btn-small" data-i18n="btnDemo"></button>
+          <span class="hint" data-i18n="keysHint"></span>
+        </div>
+      </div>
+
+      <div class="panel log-panel">
+        <table id="log">
+          <thead>
+            <tr>
+              <th scope="col" data-i18n="colNo"></th>
+              <th scope="col" data-i18n="colDist"></th>
+              <th scope="col" data-i18n="colRange"></th>
+              <th scope="col" data-i18n="colStuck"></th>
+              <th scope="col" data-i18n="colReserve"></th>
+              <th scope="col"><span class="sr-only">·</span></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p id="live" class="sr-only" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span data-i18n="footer"></span> ·
+    <a href="https://www.bladethrowers.cz/" target="_blank" rel="noopener">bladethrowers.cz</a>
+  </footer>
+</body>
+</html>
